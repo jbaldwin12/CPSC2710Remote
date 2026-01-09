@@ -1,4 +1,8 @@
-Public class SeatReservation(
+Public class SeatReservation{
 
-    public static void main (string args)
-)
+    String flightDesignator
+    java.time.LocalDate flightDate
+    String firstName
+    String lastName
+    
+}
