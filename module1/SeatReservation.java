@@ -1,47 +1,53 @@
-Public class SeatReservation{
+public class SeatReservation{
 
-    String flightDesignator = "null"
-    java.time.LocalDate flightDate = "null"
-    String firstName = "null"
-    String lastName = "null"
-    
-    Public Static String getFlightDesignator() {
-        return flightDesignator;
-    }
+   private String flightDesignator;
+   private java.time.LocalDate flightDate;
+   private String firstName;
+   private String lastName;
+   
+   public String getFlightDesignator() {
+      if (flightDesignator == null)
+         return "null";
+      return flightDesignator;
+   }
 
-    Public Static void setFlightDesignator(String fd) {
-        this.flightDesignator = flightDesignator;
-    }
+   public void setFlightDesignator(String fd) {
+      this.flightDesignator = fd;
+   }
 
-    Public Static java.time.LocalDate getFlightDate() {
-        return flightDate;
-    }
+   public java.time.LocalDate getFlightDate() {
+      return flightDate;
+   }
 
-    Public Static void setFlightDate(java.time.LocalDate date) {
-        this.flightDate = flightDate;
-    }
+   public void setFlightDate(java.time.LocalDate date) {
+      this.flightDate = date;
+   }
 
-    Public Static String getFirstName() {
-        return firstName;
-    }
+   public String getFirstName() {
+      if (firstName == null)
+         return "null";
+      return firstName;
+   }
 
-    Public Static void setFirstName(String fn) {
-        this.firstName = firstname;
-    }
+   public void setFirstName(String fn) {
+      this.firstName = fn;
+   }
 
-    Public Static String getLastName() {
-        return lastName;
-    }
+   public  String getLastName() {
+      if (lastName == null)
+         return "null";
+      return lastName;
+   }
 
-    Public Static void setLastName(String ln) {
-        this.lastName = lastName;
-    }
+   public  void setLastName(String ln) {
+      this.lastName = ln;
+   }
 
-    Public String toString() {
-        String output = "SeatReservation{flightDesignator=" + flightDesignator
-        + ",flightDate=" + flightDate + ",firstName=" + firstName
-        + ",lastName=" + lastName + "}";
-        return output;
-    }
+   public String toString() {
+      String output = "SeatReservation{flightDesignator=" + flightDesignator
+         + ",flightDate=" + flightDate + ",firstName=" + firstName
+         + ",lastName=" + lastName + "}";
+      return output;
+   }
 
 }
