@@ -12,10 +12,12 @@ public class SeatReservation{
    }
 
    public void setFlightDesignator(String fd) {
-      if (fd == null){
-         throw new IllegalArgumentException("flight designator cannot be null");
-      }
-         this.flightDesignator = fd;
+      final int minLength = 4;
+      final int maxLength = 6;
+      this.flightDesignator = fd;
+      if (fd.length() < minLength || fd.length() > maxLength || fd == null)
+         throw new IllegalArgumentException(
+            "Flight Designator should be 4 to 6 digits long");
    }
 
    public java.time.LocalDate getFlightDate() {
