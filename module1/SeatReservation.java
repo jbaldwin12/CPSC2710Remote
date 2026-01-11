@@ -15,7 +15,7 @@ public class SeatReservation{
       final int minLength = 4;
       final int maxLength = 6;
       this.flightDesignator = fd;
-      if (fd.length() < minLength || fd.length() > maxLength || fd == null)
+      if (fd == null || fd.length() < minLength || fd.length() > maxLength)
          throw new IllegalArgumentException(
             "Flight Designator should be 4 to 6 digits long");
    }
