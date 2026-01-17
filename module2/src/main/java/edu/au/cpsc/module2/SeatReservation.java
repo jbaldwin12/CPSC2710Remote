@@ -112,5 +112,4 @@ public class SeatReservation{
          + ", flyingWithTravelInsurance=" + flyingWithTravelInsurance + "}";
       return output;
    }
-
 }
