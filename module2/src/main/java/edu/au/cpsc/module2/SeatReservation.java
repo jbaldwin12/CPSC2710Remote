@@ -9,7 +9,7 @@
 
 package edu.au.cpsc.module2;
 
-public class SeatReservation{
+public class SeatReservation {
 
    private String flightDesignator;
    private java.time.LocalDate flightDate;
