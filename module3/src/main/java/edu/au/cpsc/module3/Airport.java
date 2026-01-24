@@ -185,7 +185,13 @@ public class Airport {
                 String ident = parts[0];
                 String type = parts[1];
                 String name = parts[2];
-                Integer elevationFt = Integer.valueOf(parts[3]);
+                Integer elevationFt;
+                if (parts[3] == null || parts[3].length() == 0) {
+                    elevationFt = null;
+                }
+                else {
+                    elevationFt = Integer.parseInt(parts[3]);
+                }
                 String continent = parts[4];
                 String isoCountry = parts[5];
                 String isoRegion = parts[6];
@@ -202,5 +208,19 @@ public class Airport {
         }
 
         return airports;
+    }
+
+    public static void printAirports(List<Airport> airports) {
+        for (Airport airport : airports) {
+            System.out.printf("%-10s | %-50s | %-15s | %-5s | %-10s | %-30s | %10.6f | %10.6f%n",
+                    airport.getIdent(),
+                    airport.getName(),
+                    airport.getContinent(),
+                    airport.getIsoCountry(),
+                    airport.getIsoRegion(),
+                    airport.getMunicipality(),
+                    airport.getLatitude(),
+                    airport.getLongitude());
+        }
     }
 }
