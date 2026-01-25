@@ -3,6 +3,8 @@ package edu.au.cpsc.module3;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.web.WebView;
+import javafx.scene.web.WebEngine;
 
 import java.util.List;
 
@@ -27,6 +29,15 @@ public class AirportController {
     private TextField municipalityField;
     @FXML
     private Button searchButton;
+    @FXML
+    private WebView webView;
+    public void initialize() {
+        // Get the engine from the WebView
+        WebEngine engine = webView.getEngine();
+
+        // Load the URL for Windy at your coordinates
+        engine.load("https://www.windy.com/?40.49150085,-80.23290253,12");
+    }
 
     private List<Airport> airPortList;
 
