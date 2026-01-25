@@ -31,13 +31,6 @@ public class AirportController {
     private Button searchButton;
     @FXML
     private WebView webView;
-    public void initialize() {
-        // Get the engine from the WebView
-        WebEngine engine = webView.getEngine();
-
-        // Load the URL for Windy at your coordinates
-        engine.load("https://www.windy.com/?40.49150085,-80.23290253,12");
-    }
 
     private List<Airport> airPortList;
 
@@ -75,6 +68,7 @@ public class AirportController {
         // Display the found airport (or show not found message)
         if (foundAirport != null) {
             displayAirport(foundAirport);
+            AirportMap(foundAirport);
         } else {
             System.out.println("Airport not found!");
             clearFields();
@@ -124,5 +118,17 @@ public class AirportController {
         countryField.setText("");
         regionField.setText("");
         municipalityField.setText("");
+    }
+
+    public void AirportMap(Airport airport) {
+        WebEngine engine = webView.getEngine();
+        if (airport == null) return;
+
+        double lat = airport.getLatitude();
+        double lon = airport.getLongitude();
+        int zoom = 12;
+
+        String url = String.format("https://www.windy.com/?%f,%f,%d", lat, lon, zoom);
+        webView.getEngine().load(url);
     }
 }
