@@ -1,4 +1,4 @@
-package edu.au.cpsc.module4;
+package edu.au.cpsc.module4.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

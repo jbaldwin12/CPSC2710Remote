@@ -1,4 +1,4 @@
-package edu.au.cpsc.module4;
+package edu.au.cpsc.module4.model;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
