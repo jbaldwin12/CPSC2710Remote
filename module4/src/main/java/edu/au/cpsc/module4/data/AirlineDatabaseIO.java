@@ -4,7 +4,6 @@ import java.io.*;
 
 public class AirlineDatabaseIO {
 
-    public static final File DEFAULT_FILE = new File("ScheduledFlights.dat");
 
     public static void save(AirlineDatabase database, OutputStream strm) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(strm);
