@@ -3,6 +3,7 @@ package edu.au.cpsc.module4.controller;
 import edu.au.cpsc.module4.data.AirlineDatabase;
 import edu.au.cpsc.module4.data.Db;
 import edu.au.cpsc.module4.model.ScheduledFlight;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -210,7 +211,7 @@ public class FlightScheduleController {
     }
 
     @FXML
-    private void addButtonAction() {
+    protected void addButtonAction() {
         try {
             ScheduledFlight flight = createFlightFromFields();
 
@@ -231,23 +232,49 @@ public class FlightScheduleController {
             newButtonAction();
 
         } catch (IllegalArgumentException e) {
+            showAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     @FXML
-    private void newButtonAction() {
+    protected void newButtonAction() {
         clearFields();
         flightTable.getSelectionModel().clearSelection();
         selectedFlight = null;
     }
 
     @FXML
-    private void deleteButtonAction() {
+    protected void deleteButtonAction() {
         if (selectedFlight != null) {
-            database.removeScheduledFlight(selectedFlight);
-            flightList.remove(selectedFlight);
-            Db.saveDatabase();
-            newButtonAction();
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Confirm Delete");
+            confirm.setHeaderText("Delete Flight");
+            confirm.setContentText("Are you sure you want to delete flight " +
+                    selectedFlight.getFlightDesignator() + "?");
+
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    database.removeScheduledFlight(selectedFlight);
+                    flightList.remove(selectedFlight);
+                    Db.saveDatabase();
+                    newButtonAction();
+                }
+            });
+        } else {
+            showAlert("No Selection", "Please select a flight to delete", Alert.AlertType.WARNING);
         }
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    @FXML
+    protected void closeMenuAction() {
+        Platform.exit();
     }
 }
