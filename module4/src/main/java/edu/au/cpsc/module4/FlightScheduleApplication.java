@@ -18,8 +18,8 @@ import java.io.IOException;
 public class FlightScheduleApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(FlightScheduleApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        FXMLLoader fxmlLoader = new FXMLLoader(FlightScheduleApplication.class.getResource("flight-schedule-app.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Jordan Baldwin's Flight Designator App");
         stage.setScene(scene);
         stage.show();
