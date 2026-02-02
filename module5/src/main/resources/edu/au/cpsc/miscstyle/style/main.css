@@ -1,0 +1,15 @@
+.background {
+    -fx-background-color: #dad7cd;
+}
+
+.foreground {
+    -fx-fill: #272838;
+}
+
+.highlight {
+    -fx-fill: #ff6b6b;
+}
+
+.accent {
+    -fx-fill: #7e7f9a;
+}
