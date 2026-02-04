@@ -1,0 +1,41 @@
+@font-face {
+    font-family: 'Playwrite NZ Basic';
+    src: url('../fonts/PlaywriteNZBasic-Regular.ttf');
+}
+
+Button {
+    -fx-content-display: top;
+    -fx-background-color: blue;
+}
+
+#airports-btn {
+    -fx-font-family: 'Playwrite NZ Basic';
+    -fx-font-size: 15px;
+    -fx-background-image: url('../images/airports.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
+    -fx-background-size: 80px 80px;
+}
+
+#seat-reservation-btn {
+    -fx-font-family: 'Playwrite NZ Basic';
+    -fx-font-size: 15px;
+    -fx-background-image: url('../images/seatReservation.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
+    -fx-background-size: 80px 80px;
+}
+
+#flight-schedule-btn {
+    -fx-background-image: url('../images/flightSchedule.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
+    -fx-background-size: 80px 80px;
+}
+
+#aircraft-btn {
+    -fx-background-image: url('../images/aircraft.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
+    -fx-background-size: 80px 80px;
+}
