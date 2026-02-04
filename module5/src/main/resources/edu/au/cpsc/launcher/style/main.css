@@ -6,6 +6,8 @@
 Button {
     -fx-content-display: top;
     -fx-background-color: blue;
+    -fx-border-width: 2px;
+    -fx-border-color: black;
 }
 
 #airports-btn {
