@@ -11,7 +11,10 @@ package edu.au.cpsc.module6.controller;
 import edu.au.cpsc.module6.data.AirlineDatabase;
 import edu.au.cpsc.module6.data.Db;
 import edu.au.cpsc.module6.model.ScheduledFlight;
+import edu.au.cpsc.module6.uimodel.FlightScheduleModel;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -77,6 +80,7 @@ public class FlightScheduleController {
     private AirlineDatabase database;
     private ObservableList<ScheduledFlight> flightList;
     private ScheduledFlight selectedFlight;
+    private FlightScheduleModel model;
 
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -85,6 +89,10 @@ public class FlightScheduleController {
         // Load database
         database = Db.getDatabase();
         flightList = FXCollections.observableArrayList(database.getScheduledFlights());
+
+        // Set up UI model
+        model = new FlightScheduleModel();
+        setupButtonBindings();
 
         // Set up table columns
         setupTableColumns();
@@ -98,13 +106,25 @@ public class FlightScheduleController {
                     if (newValue != null) {
                         selectedFlight = newValue;
                         populateFields(newValue);
-                        addButton.setText("Update");
+                        model.setModified(false);
+                        model.setNew(false);
                     } else {
                         selectedFlight = null;
-                        addButton.setText("Add");
+                        model.setNew(true);
                     }
                 }
         );
+    }
+
+    private void setupButtonBindings() {
+        StringBinding labelProperty = Bindings.when(model.newProperty())
+                .then("Add")
+                .otherwise("Update");
+        addButton.textProperty().bind(labelProperty);
+
+        addButton.disableProperty().bind(model.modifiedProperty().not());
+        newButton.disableProperty().bind(model.modifiedProperty().or(model.newProperty()));
+        deleteButton.disableProperty().bind(model.modifiedProperty().or(model.newProperty()));
     }
 
     private void setupTableColumns() {
