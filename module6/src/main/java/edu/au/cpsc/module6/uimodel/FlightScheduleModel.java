@@ -58,9 +58,63 @@ public class FlightScheduleModel {
         thursdayProperty.addListener((observable, oldValue, newValue) -> setModified(true));
         fridayProperty.addListener((observable, oldValue, newValue) -> setModified(true));
         saturdayProperty.addListener((observable, oldValue, newValue) -> setModified(true));
-
-
     }
 
+    public StringProperty flightDesignatorProperty() {return flightDesignatorProperty; }
+    public StringProperty departureAirportProperty() {return departureAirportProperty; }
+    public StringProperty arrivalAirportProperty() {return arrivalAirportProperty; }
+    public StringProperty departureTimeProperty() {return departureTimeProperty; }
+    public StringProperty arrivalTimeProperty() {return arrivalTimeProperty; }
+    public BooleanProperty sundayProperty() {return sundayProperty; }
+    public BooleanProperty mondayProperty() {return mondayProperty; }
+    public BooleanProperty tuesdayProperty() {return tuesdayProperty; }
+    public BooleanProperty wednesdayProperty() {return wednesdayProperty; }
+    public BooleanProperty thursdayProperty() {return thursdayProperty; }
+    public BooleanProperty fridayProperty() {return fridayProperty; }
+    public BooleanProperty saturdayProperty() {return saturdayProperty; }
+    public BooleanProperty modifiedProperty() {return modifiedProperty; }
+    public BooleanProperty newProperty() {return newProperty; }
+
+    //Convenience methods
+    public String getFlightDesignator() {return flightDesignatorProperty.get(); }
+    public void setFlightDesignator(String flightDesignator) { flightDesignatorProperty.set(flightDesignator); }
+
+    public String getDepartureAirport() {return departureAirportProperty.get(); }
+    public void setDepartureAirport(String departureAirport) { departureAirportProperty.set(departureAirport); }
+
+    public String getArrivalAirport() {return arrivalAirportProperty.get(); }
+    public void setArrivalAirport(String arrivalAirport) { arrivalAirportProperty.set(arrivalAirport); }
+
+    public String getDepartureTime() {return departureTimeProperty.get(); }
+    public void setDepartureTime(String departureTime) { departureTimeProperty.set(departureTime); }
+
+    public String getArrivalTime() {return arrivalTimeProperty.get(); }
+    public void setArrivalTime(String arrivalTime) { arrivalTimeProperty.set(arrivalTime); }
+
+    public boolean getSunday() { return sundayProperty.get(); }
+    public void setSunday(boolean sunday) { sundayProperty.set(sunday); }
+
+    public boolean getMonday() { return mondayProperty.get(); }
+    public void setMonday(boolean monday) { mondayProperty.set(monday); }
+
+    public boolean getTuesday() { return tuesdayProperty.get(); }
+    public void setTuesday(boolean tuesday) { tuesdayProperty.set(tuesday); }
+
+    public boolean getWednesday() { return wednesdayProperty.get(); }
+    public void setWednesday(boolean wednesday) { wednesdayProperty.set(wednesday); }
+
+    public boolean getThursday() { return thursdayProperty.get(); }
+    public void setThursday(boolean thursday) { thursdayProperty.set(thursday); }
+
+    public boolean getFriday() { return fridayProperty.get(); }
+    public void setFriday(boolean friday) { fridayProperty.set(friday); }
+
+    public boolean getSaturday() { return saturdayProperty.get(); }
+    public void setSaturday(boolean saturday) { saturdayProperty.set(saturday); }
+
+    public boolean isModified() { return modifiedProperty.get(); }
     public void setModified(boolean m) { modifiedProperty.set(m); }
+
+    public boolean isNew() { return newProperty.get(); }
+    public void setNew(boolean n) { newProperty.set(n); }
 }
