@@ -1,5 +1,13 @@
+/* Project Name: Practice with properties and bindings
+* Author: Jordan Baldwin
+* Auburn Email: jtb0185@auburn.edu
+* Date:2/12/26
+* Description: familiarize use of bindings
+ */
+
 package edu.au.cpsc.part1;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -32,5 +40,18 @@ public class Part1Controller {
 
   public void initialize() {
     // your bindings go here
+    echoTextField.textProperty().bind(messageTextField.textProperty());
+
+    firstBidirectionalTextField.textProperty().bindBidirectional(secondBidirectionalTextField.textProperty());
+
+    secretOverlayImageView.opacityProperty().bind(secretSlider.valueProperty());
+
+    selectMeLabel.textProperty().bind(selectMeCheckBox.selectedProperty().asString());
+
+    numberOfCharactersLabel.textProperty().bind(tweetTextField.textProperty().length().asString());
+
+    validityLabel.textProperty().bind(Bindings.when(tweetTextField.textProperty().length().lessThanOrEqualTo(10))
+            .then("Valid")
+            .otherwise("Invalid"));
   }
 }

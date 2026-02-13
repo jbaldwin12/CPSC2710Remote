@@ -1,3 +1,10 @@
+/* Project Name: Practice with properties and bindings
+ * Author: Jordan Baldwin
+ * Auburn Email: jtb0185@auburn.edu
+ * Date:2/12/26
+ * Description: familiarize use of bindings
+ */
+
 package edu.au.cpsc.part1;
 
 import javafx.application.Application;
@@ -11,9 +18,9 @@ public class Part1Application extends Application {
 
   @Override
   public void start(Stage stage) throws IOException {
-    FXMLLoader fxmlLoader = new FXMLLoader(Part1Application.class.getResource("../../../../../../../../../Downloads/Part1Files/Part1Files/part1-view.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(Part1Application.class.getResource("part1-view.fxml"));
     Scene scene = new Scene(fxmlLoader.load());
-    stage.setTitle("Part 1");
+    stage.setTitle("Jordan Baldwin's Flight Part1 App");
     stage.setScene(scene);
     stage.show();
   }
