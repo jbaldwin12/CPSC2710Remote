@@ -1,7 +1,7 @@
-/*Project name: Flight Schedule Application
+/*Project name: Flight Schedule Application V2
 * Author:Jordan Baldwin
 * auburn email: jtb0185@auburn.edu
-* Date: 1/27/26
+* Date: 2/13/26
 * Description: Complete application for editing airline flight information,
 * including a file-based database so that its data is persistent between runs.
 */
@@ -20,7 +20,7 @@ public class FlightScheduleApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FlightScheduleApplication.class.getResource("flight-schedule-app.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Jordan Baldwin's Flight Designator App");
+        stage.setTitle("Jordan Baldwin's Flight Designator App V2");
         stage.setScene(scene);
         stage.show();
     }
