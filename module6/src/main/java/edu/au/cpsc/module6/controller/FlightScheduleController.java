@@ -120,45 +120,85 @@ public class FlightScheduleController {
     }
 
     private void setupValidation() {
+        // Listen to text property changes to update styling
+        model.flightDesignatorProperty().addListener((observable, oldValue, newValue) -> {
+            updateFieldStyle(flightDesignatorField, model.flightDesignatorValidProperty().get(), newValue);
+        });
         model.flightDesignatorValidProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue && model.getFlightDesignator() != null && !model.getFlightDesignator().isEmpty()) {
-                flightDesignatorField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            } else {
-                flightDesignatorField.setStyle("");
-            }
+            updateFieldStyle(flightDesignatorField, newValue, model.getFlightDesignator());
         });
 
+        model.departureAirportProperty().addListener((observable, oldValue, newValue) -> {
+            updateFieldStyle(departureAirportField, model.departureAirportValidProperty().get(), newValue);
+        });
         model.departureAirportValidProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue && model.getDepartureAirport() != null && !model.getDepartureAirport().isEmpty()) {
-                departureAirportField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            } else {
-                departureAirportField.setStyle("");
-            }
+            updateFieldStyle(departureAirportField, newValue, model.getDepartureAirport());
         });
 
+        model.arrivalAirportProperty().addListener((observable, oldValue, newValue) -> {
+            updateFieldStyle(arrivalAirportField, model.arrivalAirportValidProperty().get(), newValue);
+        });
         model.arrivalAirportValidProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue && model.getArrivalAirport() != null && !model.getArrivalAirport().isEmpty()) {
-                arrivalAirportField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            } else {
-                arrivalAirportField.setStyle("");
-            }
+            updateFieldStyle(arrivalAirportField, newValue, model.getArrivalAirport());
         });
 
+        model.departureTimeProperty().addListener((observable, oldValue, newValue) -> {
+            updateFieldStyle(departureTimeField, model.departureTimeValidProperty().get(), newValue);
+        });
         model.departureTimeValidProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue && model.getDepartureTime() != null && !model.getDepartureTime().isEmpty()) {
-                departureTimeField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            } else {
-                departureTimeField.setStyle("");
-            }
+            updateFieldStyle(departureTimeField, newValue, model.getDepartureTime());
         });
 
+        model.arrivalTimeProperty().addListener((observable, oldValue, newValue) -> {
+            updateFieldStyle(arrivalTimeField, model.arrivalTimeValidProperty().get(), newValue);
+        });
         model.arrivalTimeValidProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue && model.getArrivalTime() != null && !model.getArrivalTime().isEmpty()) {
-                arrivalTimeField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            } else {
-                arrivalTimeField.setStyle("");
+            updateFieldStyle(arrivalTimeField, newValue, model.getArrivalTime());
+        });
+
+        model.validationAttemptedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                validateAllFields();
             }
         });
+    }
+
+    private void updateFieldStyle(TextField field, boolean isValid, String value) {
+        if (!model.isValidationAttempted()) {
+            field.setStyle("");
+            return;
+        }
+
+        String val = value != null ? value : "";
+        if (val.trim().isEmpty() || !isValid) {
+            field.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        } else {
+            field.setStyle("");
+        }
+    }
+
+    private void validateAllFields() {
+        String flightDes = model.getFlightDesignator() != null ? model.getFlightDesignator() : "";
+        String depAirport = model.getDepartureAirport() != null ? model.getDepartureAirport() : "";
+        String arrAirport = model.getArrivalAirport() != null ? model.getArrivalAirport() : "";
+        String depTime = model.getDepartureTime() != null ? model.getDepartureTime() : "";
+        String arrTime = model.getArrivalTime() != null ? model.getArrivalTime() : "";
+
+        if (flightDes.trim().isEmpty() || !model.flightDesignatorValidProperty().get()) {
+            flightDesignatorField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        }
+        if (depAirport.trim().isEmpty() || !model.departureAirportValidProperty().get()) {
+            departureAirportField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        }
+        if (arrAirport.trim().isEmpty() || !model.arrivalAirportValidProperty().get()) {
+            arrivalAirportField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        }
+        if (depTime.trim().isEmpty() || !model.departureTimeValidProperty().get()) {
+            departureTimeField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        }
+        if (arrTime.trim().isEmpty() || !model.arrivalTimeValidProperty().get()) {
+            arrivalTimeField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        }
     }
 
     private void setupButtonBindings() {
@@ -167,7 +207,7 @@ public class FlightScheduleController {
                 .otherwise("Update");
         addButton.textProperty().bind(labelProperty);
 
-        addButton.disableProperty().bind(model.modifiedProperty().not());
+        addButton.disableProperty().bind(model.modifiedProperty().not().and(model.newProperty().not()));
         newButton.disableProperty().bind(model.modifiedProperty().or(model.newProperty()));
         deleteButton.disableProperty().bind(model.modifiedProperty().or(model.newProperty()));
     }
@@ -308,6 +348,8 @@ public class FlightScheduleController {
 
     @FXML
     protected void addButtonAction() {
+        model.setValidationAttempted(true);
+
         try {
             ScheduledFlight flight = createFlightFromFields();
 
@@ -337,6 +379,12 @@ public class FlightScheduleController {
         clearFields();
         flightTable.getSelectionModel().clearSelection();
         selectedFlight = null;
+        model.setValidationAttempted(false);
+        flightDesignatorField.setStyle("");
+        departureAirportField.setStyle("");
+        arrivalAirportField.setStyle("");
+        departureTimeField.setStyle("");
+        arrivalTimeField.setStyle("");
     }
 
     @FXML

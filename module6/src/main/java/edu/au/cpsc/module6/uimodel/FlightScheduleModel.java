@@ -42,6 +42,7 @@ public class FlightScheduleModel {
     private final BooleanProperty arrivalAirportValidProperty;
     private final BooleanProperty departureTimeValidProperty;
     private final BooleanProperty arrivalTimeValidProperty;
+    private final BooleanProperty validationAttemptedProperty;
 
     public FlightScheduleModel() {
         flightDesignatorProperty = new SimpleStringProperty();
@@ -65,6 +66,7 @@ public class FlightScheduleModel {
         arrivalAirportValidProperty = new SimpleBooleanProperty(true);
         departureTimeValidProperty = new SimpleBooleanProperty(true);
         arrivalTimeValidProperty = new SimpleBooleanProperty(true);
+        validationAttemptedProperty = new SimpleBooleanProperty(false);
 
         // Set up validation listeners
         setupValidation();
@@ -148,6 +150,7 @@ public class FlightScheduleModel {
     public BooleanProperty arrivalAirportValidProperty() { return arrivalAirportValidProperty; }
     public BooleanProperty departureTimeValidProperty() { return departureTimeValidProperty; }
     public BooleanProperty arrivalTimeValidProperty() { return arrivalTimeValidProperty; }
+    public BooleanProperty validationAttemptedProperty() { return validationAttemptedProperty; }
 
     //Convenience methods
     public String getFlightDesignator() {return flightDesignatorProperty.get(); }
@@ -191,4 +194,7 @@ public class FlightScheduleModel {
 
     public boolean isNew() { return newProperty.get(); }
     public void setNew(boolean n) { newProperty.set(n); }
+
+    public boolean isValidationAttempted() { return validationAttemptedProperty.get(); }
+    public void setValidationAttempted(boolean v) { validationAttemptedProperty.set(v); }
 }
