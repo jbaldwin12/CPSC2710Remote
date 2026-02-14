@@ -95,6 +95,7 @@ public class FlightScheduleController {
         model.setNew(true);
         setupButtonBindings();
         setupFieldBindings();
+        setupValidation();
 
         // Set up table columns
         setupTableColumns();
@@ -116,6 +117,48 @@ public class FlightScheduleController {
                     }
                 }
         );
+    }
+
+    private void setupValidation() {
+        model.flightDesignatorValidProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue && model.getFlightDesignator() != null && !model.getFlightDesignator().isEmpty()) {
+                flightDesignatorField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            } else {
+                flightDesignatorField.setStyle("");
+            }
+        });
+
+        model.departureAirportValidProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue && model.getDepartureAirport() != null && !model.getDepartureAirport().isEmpty()) {
+                departureAirportField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            } else {
+                departureAirportField.setStyle("");
+            }
+        });
+
+        model.arrivalAirportValidProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue && model.getArrivalAirport() != null && !model.getArrivalAirport().isEmpty()) {
+                arrivalAirportField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            } else {
+                arrivalAirportField.setStyle("");
+            }
+        });
+
+        model.departureTimeValidProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue && model.getDepartureTime() != null && !model.getDepartureTime().isEmpty()) {
+                departureTimeField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            } else {
+                departureTimeField.setStyle("");
+            }
+        });
+
+        model.arrivalTimeValidProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue && model.getArrivalTime() != null && !model.getArrivalTime().isEmpty()) {
+                arrivalTimeField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            } else {
+                arrivalTimeField.setStyle("");
+            }
+        });
     }
 
     private void setupButtonBindings() {

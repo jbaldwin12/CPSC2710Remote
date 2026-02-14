@@ -13,7 +13,13 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class FlightScheduleModel {
+
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     private final StringProperty flightDesignatorProperty;
     private final StringProperty departureAirportProperty;
@@ -29,6 +35,13 @@ public class FlightScheduleModel {
     private final BooleanProperty saturdayProperty;
     private final BooleanProperty modifiedProperty;
     private final BooleanProperty newProperty;
+
+    // Validation properties
+    private final BooleanProperty flightDesignatorValidProperty;
+    private final BooleanProperty departureAirportValidProperty;
+    private final BooleanProperty arrivalAirportValidProperty;
+    private final BooleanProperty departureTimeValidProperty;
+    private final BooleanProperty arrivalTimeValidProperty;
 
     public FlightScheduleModel() {
         flightDesignatorProperty = new SimpleStringProperty();
@@ -46,6 +59,16 @@ public class FlightScheduleModel {
         modifiedProperty = new SimpleBooleanProperty();
         newProperty = new SimpleBooleanProperty();
 
+        // Initialize validation properties
+        flightDesignatorValidProperty = new SimpleBooleanProperty(true);
+        departureAirportValidProperty = new SimpleBooleanProperty(true);
+        arrivalAirportValidProperty = new SimpleBooleanProperty(true);
+        departureTimeValidProperty = new SimpleBooleanProperty(true);
+        arrivalTimeValidProperty = new SimpleBooleanProperty(true);
+
+        // Set up validation listeners
+        setupValidation();
+
         flightDesignatorProperty.addListener((observable, oldValue, newValue) -> setModified(true));
         departureAirportProperty.addListener((observable, oldValue, newValue) -> setModified(true));
         arrivalAirportProperty.addListener((observable, oldValue, newValue) -> setModified(true));
@@ -58,6 +81,50 @@ public class FlightScheduleModel {
         thursdayProperty.addListener((observable, oldValue, newValue) -> setModified(true));
         fridayProperty.addListener((observable, oldValue, newValue) -> setModified(true));
         saturdayProperty.addListener((observable, oldValue, newValue) -> setModified(true));
+    }
+
+    private void setupValidation() {
+        // Validate flight designator
+        flightDesignatorProperty.addListener((observable, oldValue, newValue) -> {
+            boolean valid = newValue != null && !newValue.trim().isEmpty() && newValue.trim().length() <= 10;
+            flightDesignatorValidProperty.set(valid);
+        });
+
+        // Validate departure airport
+        departureAirportProperty.addListener((observable, oldValue, newValue) -> {
+            boolean valid = newValue != null && !newValue.trim().isEmpty() && newValue.trim().length() <= 4;
+            departureAirportValidProperty.set(valid);
+        });
+
+        // Validate arrival airport
+        arrivalAirportProperty.addListener((observable, oldValue, newValue) -> {
+            boolean valid = newValue != null && !newValue.trim().isEmpty() && newValue.trim().length() <= 4;
+            arrivalAirportValidProperty.set(valid);
+        });
+
+        // Validate departure time
+        departureTimeProperty.addListener((observable, oldValue, newValue) -> {
+            boolean valid = isValidTime(newValue);
+            departureTimeValidProperty.set(valid);
+        });
+
+        // Validate arrival time
+        arrivalTimeProperty.addListener((observable, oldValue, newValue) -> {
+            boolean valid = isValidTime(newValue);
+            arrivalTimeValidProperty.set(valid);
+        });
+    }
+
+    private boolean isValidTime(String time) {
+        if (time == null || time.trim().isEmpty()) {
+            return false;
+        }
+        try {
+            LocalTime.parse(time.trim(), TIME_FORMATTER);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 
     public StringProperty flightDesignatorProperty() {return flightDesignatorProperty; }
@@ -74,6 +141,13 @@ public class FlightScheduleModel {
     public BooleanProperty saturdayProperty() {return saturdayProperty; }
     public BooleanProperty modifiedProperty() {return modifiedProperty; }
     public BooleanProperty newProperty() {return newProperty; }
+
+    // Validation property getters
+    public BooleanProperty flightDesignatorValidProperty() { return flightDesignatorValidProperty; }
+    public BooleanProperty departureAirportValidProperty() { return departureAirportValidProperty; }
+    public BooleanProperty arrivalAirportValidProperty() { return arrivalAirportValidProperty; }
+    public BooleanProperty departureTimeValidProperty() { return departureTimeValidProperty; }
+    public BooleanProperty arrivalTimeValidProperty() { return arrivalTimeValidProperty; }
 
     //Convenience methods
     public String getFlightDesignator() {return flightDesignatorProperty.get(); }
