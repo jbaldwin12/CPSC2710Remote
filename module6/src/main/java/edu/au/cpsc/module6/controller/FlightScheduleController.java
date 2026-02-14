@@ -92,7 +92,9 @@ public class FlightScheduleController {
 
         // Set up UI model
         model = new FlightScheduleModel();
+        model.setNew(true);
         setupButtonBindings();
+        setupFieldBindings();
 
         // Set up table columns
         setupTableColumns();
@@ -125,6 +127,21 @@ public class FlightScheduleController {
         addButton.disableProperty().bind(model.modifiedProperty().not());
         newButton.disableProperty().bind(model.modifiedProperty().or(model.newProperty()));
         deleteButton.disableProperty().bind(model.modifiedProperty().or(model.newProperty()));
+    }
+
+    private void setupFieldBindings() {
+        flightDesignatorField.textProperty().bindBidirectional(model.flightDesignatorProperty());
+        departureAirportField.textProperty().bindBidirectional(model.departureAirportProperty());
+        arrivalAirportField.textProperty().bindBidirectional(model.arrivalAirportProperty());
+        departureTimeField.textProperty().bindBidirectional(model.departureTimeProperty());
+        arrivalTimeField.textProperty().bindBidirectional(model.arrivalTimeProperty());
+        mondayToggle.selectedProperty().bindBidirectional(model.mondayProperty());
+        tuesdayToggle.selectedProperty().bindBidirectional(model.tuesdayProperty());
+        wednesdayToggle.selectedProperty().bindBidirectional(model.wednesdayProperty());
+        thursdayToggle.selectedProperty().bindBidirectional(model.thursdayProperty());
+        fridayToggle.selectedProperty().bindBidirectional(model.fridayProperty());
+        saturdayToggle.selectedProperty().bindBidirectional(model.saturdayProperty());
+        sundayToggle.selectedProperty().bindBidirectional(model.sundayProperty());
     }
 
     private void setupTableColumns() {
@@ -160,79 +177,86 @@ public class FlightScheduleController {
     }
 
     private void populateFields(ScheduledFlight flight) {
-        flightDesignatorField.setText(flight.getFlightDesignator());
-        departureAirportField.setText(flight.getDepartureAirportIdent());
-        departureTimeField.setText(flight.getDepartureTime().format(TIME_FORMATTER));
-        arrivalAirportField.setText(flight.getArrivalAirportIdent());
-        arrivalTimeField.setText(flight.getArrivalTime().format(TIME_FORMATTER));
+        model.setFlightDesignator(flight.getFlightDesignator());
+        model.setDepartureAirport(flight.getDepartureAirportIdent());
+        model.setDepartureTime(flight.getDepartureTime().format(TIME_FORMATTER));
+        model.setArrivalAirport(flight.getArrivalAirportIdent());
+        model.setArrivalTime(flight.getArrivalTime().format(TIME_FORMATTER));
 
         // Set toggle buttons
         HashSet<DayOfWeek> days = flight.getDaysOfWeek();
-        mondayToggle.setSelected(days.contains(DayOfWeek.MONDAY));
-        tuesdayToggle.setSelected(days.contains(DayOfWeek.TUESDAY));
-        wednesdayToggle.setSelected(days.contains(DayOfWeek.WEDNESDAY));
-        thursdayToggle.setSelected(days.contains(DayOfWeek.THURSDAY));
-        fridayToggle.setSelected(days.contains(DayOfWeek.FRIDAY));
-        saturdayToggle.setSelected(days.contains(DayOfWeek.SATURDAY));
-        sundayToggle.setSelected(days.contains(DayOfWeek.SUNDAY));
+        model.setMonday(days.contains(DayOfWeek.MONDAY));
+        model.setTuesday(days.contains(DayOfWeek.TUESDAY));
+        model.setWednesday(days.contains(DayOfWeek.WEDNESDAY));
+        model.setThursday(days.contains(DayOfWeek.THURSDAY));
+        model.setFriday(days.contains(DayOfWeek.FRIDAY));
+        model.setSaturday(days.contains(DayOfWeek.SATURDAY));
+        model.setSunday(days.contains(DayOfWeek.SUNDAY));
     }
 
     private void clearFields() {
-        flightDesignatorField.clear();
-        departureAirportField.clear();
-        departureTimeField.clear();
-        arrivalAirportField.clear();
-        arrivalTimeField.clear();
+            model.setFlightDesignator("");
+            model.setDepartureAirport("");
+            model.setDepartureTime("");
+            model.setArrivalAirport("");
+            model.setArrivalTime("");
 
-        mondayToggle.setSelected(false);
-        tuesdayToggle.setSelected(false);
-        wednesdayToggle.setSelected(false);
-        thursdayToggle.setSelected(false);
-        fridayToggle.setSelected(false);
-        saturdayToggle.setSelected(false);
-        sundayToggle.setSelected(false);
+            model.setMonday(false);
+            model.setTuesday(false);
+            model.setWednesday(false);
+            model.setThursday(false);
+            model.setFriday(false);
+            model.setSaturday(false);
+            model.setSunday(false);
     }
 
     private ScheduledFlight createFlightFromFields() throws IllegalArgumentException {
-        if (flightDesignatorField.getText().trim().isEmpty()) {
+        // Get values from model (handle nulls)
+        String flightDes = model.getFlightDesignator() != null ? model.getFlightDesignator() : "";
+        String depAirport = model.getDepartureAirport() != null ? model.getDepartureAirport() : "";
+        String arrAirport = model.getArrivalAirport() != null ? model.getArrivalAirport() : "";
+        String depTime = model.getDepartureTime() != null ? model.getDepartureTime() : "";
+        String arrTime = model.getArrivalTime() != null ? model.getArrivalTime() : "";
+
+        if (flightDes.trim().isEmpty()) {
             throw new IllegalArgumentException("Flight designator is required");
         }
-        if (departureAirportField.getText().trim().isEmpty()) {
+        if (depAirport.trim().isEmpty()) {
             throw new IllegalArgumentException("Departure airport is required");
         }
-        if (arrivalAirportField.getText().trim().isEmpty()) {
+        if (arrAirport.trim().isEmpty()) {
             throw new IllegalArgumentException("Arrival airport is required");
         }
 
         ScheduledFlight flight = new ScheduledFlight();
 
-        flight.setFlightDesignator(flightDesignatorField.getText().trim());
-        flight.setDepartureAirportIdent(departureAirportField.getText().trim());
-        flight.setArrivalAirportIdent(arrivalAirportField.getText().trim());
+        flight.setFlightDesignator(flightDes.trim());
+        flight.setDepartureAirportIdent(depAirport.trim());
+        flight.setArrivalAirportIdent(arrAirport.trim());
 
         try {
-            LocalTime depTime = LocalTime.parse(departureTimeField.getText().trim(), TIME_FORMATTER);
-            flight.setDepartureTime(depTime);
+            LocalTime depTimeObj = LocalTime.parse(depTime.trim(), TIME_FORMATTER);
+            flight.setDepartureTime(depTimeObj);
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Invalid departure time format. Use HH:MM");
         }
 
         try {
-            LocalTime arrTime = LocalTime.parse(arrivalTimeField.getText().trim(), TIME_FORMATTER);
-            flight.setArrivalTime(arrTime);
+            LocalTime arrTimeObj = LocalTime.parse(arrTime.trim(), TIME_FORMATTER);
+            flight.setArrivalTime(arrTimeObj);
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Invalid arrival time format. Use HH:MM");
         }
 
-        // Get days of week from toggle buttons
+        // Get days of week from model
         HashSet<DayOfWeek> days = new HashSet<>();
-        if (mondayToggle.isSelected()) days.add(DayOfWeek.MONDAY);
-        if (tuesdayToggle.isSelected()) days.add(DayOfWeek.TUESDAY);
-        if (wednesdayToggle.isSelected()) days.add(DayOfWeek.WEDNESDAY);
-        if (thursdayToggle.isSelected()) days.add(DayOfWeek.THURSDAY);
-        if (fridayToggle.isSelected()) days.add(DayOfWeek.FRIDAY);
-        if (saturdayToggle.isSelected()) days.add(DayOfWeek.SATURDAY);
-        if (sundayToggle.isSelected()) days.add(DayOfWeek.SUNDAY);
+        if (model.getMonday()) days.add(DayOfWeek.MONDAY);
+        if (model.getTuesday()) days.add(DayOfWeek.TUESDAY);
+        if (model.getWednesday()) days.add(DayOfWeek.WEDNESDAY);
+        if (model.getThursday()) days.add(DayOfWeek.THURSDAY);
+        if (model.getFriday()) days.add(DayOfWeek.FRIDAY);
+        if (model.getSaturday()) days.add(DayOfWeek.SATURDAY);
+        if (model.getSunday()) days.add(DayOfWeek.SUNDAY);
 
         flight.setDaysOfWeek(days);
 
