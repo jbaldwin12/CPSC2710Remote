@@ -3,14 +3,79 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="edu.au.cpsc.module7.controller.MainWindowController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="edu.au.cpsc.module7.controller.MainWindowController"
+            prefWidth="900" prefHeight="600">
+
+    <!-- Menu Bar -->
+    <top>
+        <MenuBar>
+            <Menu text="File" mnemonicParsing="true">
+                <MenuItem text="Exit" onAction="#handleExit" accelerator="Shortcut+Q"/>
+            </Menu>
+            <Menu text="Edit" mnemonicParsing="true">
+                <MenuItem text="Delete Meal" onAction="#handleDeleteMeal" accelerator="Shortcut+D"/>
+            </Menu>
+            <Menu text="Help" mnemonicParsing="true">
+                <MenuItem text="About" onAction="#handleAbout" accelerator="F1"/>
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <VBox spacing="20" styleClass="main-content">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- Dashboard Summary -->
+            <HBox spacing="30" styleClass="dashboard-panel">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15"/>
+                </padding>
+
+                <VBox spacing="8" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Text text="Today's Calories" styleClass="stat-label"/>
+                    <Label fx:id="totalCaloriesLabel" text="0 / 2000 cal" styleClass="stat-value"/>
+                </VBox>
+
+                <VBox spacing="8" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Text text="Protein Intake" styleClass="stat-label"/>
+                    <Label fx:id="totalProteinLabel" text="0 / 125g" styleClass="stat-value"/>
+                </VBox>
+            </HBox>
+
+            <!-- Meal Log Section -->
+            <VBox spacing="10" VBox.vgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Text text="Meal Log" styleClass="section-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Delete" onAction="#handleDeleteMeal" styleClass="secondary-button"/>
+                </HBox>
+
+                <TableView fx:id="mealTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="dateColumn" text="Date" prefWidth="120"/>
+                        <TableColumn fx:id="nameColumn" text="Meal" prefWidth="400"/>
+                        <TableColumn fx:id="caloriesColumn" text="Calories" prefWidth="120"/>
+                        <TableColumn fx:id="proteinColumn" text="Protein (g)" prefWidth="120"/>
+                    </columns>
+                </TableView>
+            </VBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>
