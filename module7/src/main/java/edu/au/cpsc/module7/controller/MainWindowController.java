@@ -37,6 +37,9 @@ public class MainWindowController {
     private TableColumn<Meal, Integer> proteinColumn;
 
     @FXML
+    private TableColumn<Meal, String> notesColumn;
+
+    @FXML
     private Label totalCaloriesLabel;
 
     @FXML
@@ -52,6 +55,7 @@ public class MainWindowController {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         caloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
         proteinColumn.setCellValueFactory(new PropertyValueFactory<>("protein"));
+        notesColumn.setCellValueFactory(new PropertyValueFactory<>("notes"));
 
         mealTable.setItems(meals);
 
@@ -90,7 +94,7 @@ public class MainWindowController {
     @FXML
     private void handleAddMeal() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddMealWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/au/cpsc/module7/AddMealWindow.fxml"));
             Parent root = loader.load();
 
             AddMealController controller = loader.getController();
@@ -100,7 +104,7 @@ public class MainWindowController {
             stage.setTitle("Add Meal");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene(root));
-            stage.getScene().getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+            stage.getScene().getStylesheets().add(getClass().getResource("/edu/au/cpsc/module7/style.css").toExternalForm());
             stage.showAndWait();
 
         } catch (IOException e) {

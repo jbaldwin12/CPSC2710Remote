@@ -16,7 +16,7 @@ public class NutritionTrackerApplication extends Application {
         primaryStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(NutritionTrackerApplication.class.getResource("MainWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900, 600);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/edu/au/cpsc/module7/style.css").toExternalForm());
         stage.setTitle("Nutrition Tracker");
         stage.setScene(scene);
         stage.show();
