@@ -92,8 +92,8 @@ Nutrition Tracker helps you log and monitor daily food intake with these core fe
 ## Screenshots
 
 ### Main Menu
-![Main Menu](screenshots/NutritionTrackerMainMenu.png)
+![Main Menu](Screenshots/NutritionTrackerMainMenu.png)
 
 ### Add Meal Window
-![Add Meal Window](screenshots/AddMealWindow.png)
+![Add Meal Window](Screenshots/AddMealWindow.png)
 
