@@ -1,0 +1,30 @@
+.primary-button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.secondary-button {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+}
+
+.table-view .column-header {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.stat-value {
+    -fx-font-size: 25px;
+    -fx-text-fill: #2196F3;
+    -fx-font-weight: bold;
+}
+
+.menu-bar {
+    -fx-background-color: #2196F3;
+}
+
+.menu-bar > .container > .menu-button > .label {
+    -fx-text-fill: white;
+}
